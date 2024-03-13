@@ -2,18 +2,18 @@
 import torch
 import torch.nn as nn
 import traceback
-from transformers import BartTokenizer, BartForConditionalGeneration
+from transformers import MBart50Tokenizer, MBartForConditionalGeneration
 from typing import List
 import numpy as np
 
 
 class BARTScorer:
-    def __init__(self, device='cuda:0', max_length=1024, checkpoint='facebook/bart-large-cnn'):
+    def __init__(self, device='cuda:0', max_length=1024, checkpoint='facebook/mbart-50', src_lang=None, tgt_lang=None):
         # Set up model
         self.device = device
         self.max_length = max_length
-        self.tokenizer = BartTokenizer.from_pretrained(checkpoint)
-        self.model = BartForConditionalGeneration.from_pretrained(checkpoint)
+        self.tokenizer = MBart50Tokenizer.from_pretrained(checkpoint, src_lang=src_lang, tgt_lang=tgt_lang)
+        self.model = MBartForConditionalGeneration.from_pretrained(checkpoint)
         self.model.eval()
         self.model.to(device)
 
